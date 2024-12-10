@@ -38,8 +38,8 @@ public class Main {
     }
     
     private static void calculateShortestDistance(Journey journey) {
-        if (longestJourney.getTotalDistance() < journey.getTotalDistance()
-          && longestJourney.getTotalDistance() > 0)
+        if (shortestJourney.getTotalDistance() < journey.getTotalDistance()
+          && shortestJourney.getTotalDistance() > 0)
         {
             return;
         }
@@ -89,7 +89,7 @@ public class Main {
             
             if (newJourney.isComplete(keys.size()+1)) //+1 for the @.
             {
-                completedJourneys.add(newJourney);
+                //completedJourneys.add(newJourney);
                 if (newJourney.getTotalDistance() < shortestJourney.getTotalDistance()
                   || shortestJourney.getTotalDistance() == 0)
                 {

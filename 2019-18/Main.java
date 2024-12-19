@@ -36,7 +36,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         // Specify the path to your text file
-        String filePath = "C:\\Users\\smphi\\Desktop\\eclipse-workspace\\adventOfCode\\2019-18\\inputquad.txt";
+        String filePath = "";
         readInput(filePath);
 
         //Set<Character> collectedKeys = new HashSet<>(Arrays.asList('@', 'v', 'n', 't', 's', 'f', 'z', 'e', 'm', 'q', 'u', 'j', 'h', 'k', 'r', 'i'));
@@ -403,17 +403,16 @@ public class Main {
     }
 
     private static void buildMandatoryRoutes() {
-        mandatoryRoutes.put('q', 'j');
-        //mandatoryRoutes.put('j', 'h'); ? interrupts o
-        mandatoryRoutes.put('h', 'k');
-        mandatoryRoutes.put('k', 'r');
-        mandatoryRoutes.put('r', 'i');
-        mandatoryRoutes.put('l', 'p');
-        mandatoryRoutes.put('g', 'd');
-        mandatoryRoutes.put('a', 'y');
-        mandatoryRoutes.put('c', 'b');
-        mandatoryRoutes.put('z', 'e');
-        mandatoryRoutes.put('e', 'w');
+        // mandatoryRoutes.put('q', 'j');
+        // mandatoryRoutes.put('h', 'k');
+        // mandatoryRoutes.put('k', 'r');
+        // mandatoryRoutes.put('r', 'i');
+        // mandatoryRoutes.put('l', 'p');
+        // mandatoryRoutes.put('g', 'd');
+        // mandatoryRoutes.put('a', 'y');
+        // mandatoryRoutes.put('c', 'b');
+        // mandatoryRoutes.put('z', 'e');
+        // mandatoryRoutes.put('e', 'w');
     }
 
     private static boolean anyNeighboursAreAtSymbol(Coordinate currentLocation) {

@@ -10,16 +10,12 @@ public class Main {
     
     static List<IntCodeComputer> computers = new ArrayList<>();
     static List<List<Long>> packets = new ArrayList<>();
+    static List<Long> natPacket = new ArrayList<>();
+    static long valueDeliveredByNat = 0;
+    static List<IntCodeComputer> computersWithEmptyPacketQueues = new ArrayList<>();
+
     public static void main(String[] args) {
-        for (int i = 0; i < 50; i++) {
-            List<Long> initialState = readInitialState();
-            IntCode intCode = new IntCode(initialState);
-            intCode.addToUserInput(i);
-            intCode.setDebugIntCode(false);
-            System.out.println("i: " + i + ", result: " + intCode.getDiagnosticOutput(false));
-            IntCodeComputer computer = new IntCodeComputer(i, intCode);
-            computers.add(computer);
-        }
+        bootUpComputers();
 
         boolean done = false;
         while(done == false)
@@ -37,26 +33,50 @@ public class Main {
 
                 } else {
                     intCode.addToUserInput(-1);
+                    computersWithEmptyPacketQueues.add(computer);
                 }
                 List<Long> outputsSinceLastInput = intCode.getOutputsSinceLastInput();
-                // if (outputsSinceLastInput.size() != 3)
-                // {
-                //     System.out.println("Size was " + outputsSinceLastInput.size() + ", ip: " + ip + " output: " + outputsSinceLastInput);
-                // }
+
                 if (!outputsSinceLastInput.isEmpty())
                 {
                     if (outputsSinceLastInput.get(0) == 255)
                     {
-                        done = true;
-                        System.out.println(outputsSinceLastInput.get(2));
+                        natPacket = outputsSinceLastInput;
                     }
-                    
-                    List<List<Long>> listsOfPackets = IntStream.range(0, (outputsSinceLastInput.size() + 2) / 3)
+                    else
+                    {
+                        List<List<Long>> listsOfPackets = IntStream.range(0, (outputsSinceLastInput.size() + 2) / 3)
                         .mapToObj(i -> outputsSinceLastInput.subList(3 * i, Math.min(3 * (i + 1), outputsSinceLastInput.size())))
                         .collect(Collectors.toList());
-                    packets.addAll(listsOfPackets);    
+                        packets.addAll(listsOfPackets);    
+                    }
                 }
             }
+
+            if (computersWithEmptyPacketQueues.size() == 50
+              && !natPacket.isEmpty())
+            {
+                if (valueDeliveredByNat == natPacket.get(2))
+                {
+                    done = true;
+                    System.out.println(natPacket.get(2));
+                }
+                valueDeliveredByNat = natPacket.get(2);
+                natPacket.set(0, 0L);
+                packets.add(natPacket);
+            }
+              computersWithEmptyPacketQueues.clear();
+        }
+    }
+
+    private static void bootUpComputers() {
+        for (int i = 0; i < 50; i++) {
+            List<Long> initialState = readInitialState();
+            IntCode intCode = new IntCode(initialState);
+            intCode.addToUserInput(i);
+            intCode.setDebugIntCode(false);
+            IntCodeComputer computer = new IntCodeComputer(i, intCode);
+            computers.add(computer);
         }
     }
 
